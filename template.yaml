@@ -4,11 +4,11 @@ Description: Serverless patterns - SQS to Lambda
 
 Resources:
   # Define the SQS queue
-  MySqsQueue:
+  BarrySqs:
     Type: AWS::SQS::Queue
 
   # Define the consumer Lambda function
-  QueueConsumerFunction:
+  BarrySqsFunction:
     Type: AWS::Serverless::Function 
     Properties:
       CodeUri: src/
@@ -20,21 +20,21 @@ Resources:
         MySQSEvent:
           Type: SQS
           Properties:
-            Queue: !GetAtt MySqsQueue.Arn
+            Queue: !GetAtt BarrySqs.Arn
             BatchSize: 10
 Outputs:
-  QueueConsumerFunction:
-    Description: QueueConsumerFunction function name
-    Value: !Ref QueueConsumerFunction
+  BarrySqsFunction:
+    Description: BarrySqsFunction function name
+    Value: !Ref BarrySqsFunction
   
   SQSqueueName:
     Description: SNS queue name
-    Value: !GetAtt MySqsQueue.QueueName
+    Value: !GetAtt BarrySqs.QueueName
 
   SQSqueueARN:
     Description: SQS queue ARN
-    Value: !GetAtt MySqsQueue.Arn
+    Value: !GetAtt BarrySqs.Arn
 
   SQSqueueURL:
     Description: SQS queue URL
-    Value: !Ref MySqsQueue
+    Value: !Ref BarrySqs
